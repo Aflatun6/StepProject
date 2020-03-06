@@ -1,14 +1,15 @@
-package person;
+package booking;
 
 import dao.DAO;
 
 import java.io.*;
 import java.util.Collection;
-//import java.util.Collections;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class PersonDAO implements DAO<Person> {
+//import java.util.Collections;
+
+public class PersonDAO implements DAO<Booking> {
     public final String filename;
 
     public PersonDAO(String filename) {
@@ -16,18 +17,18 @@ public class PersonDAO implements DAO<Person> {
     }
 
     @Override
-    public Optional<Person> get(int id) {
+    public Optional<Booking> get(int id) {
         return getAll().stream()
-                .filter(p -> p.id == id)
+                .filter(p -> p.getId() == id)
                 .findFirst();
 //                .orElseThrow(() -> new RuntimeException("Something went wrong"));
     }
 
     @Override
-    public Collection<Person> getAll() {
+    public Collection<Booking> getAll() {
         try {
             BufferedReader br = new BufferedReader(new FileReader(new File(filename)));
-            return br.lines().map(Person::parse).collect(Collectors.toList());
+            return br.lines().map(Booking::parse).collect(Collectors.toList());
 
         } catch (IOException e) {
             throw new RuntimeException("Something went wrong");
@@ -35,7 +36,7 @@ public class PersonDAO implements DAO<Person> {
     }
 
     @Override
-    public void add(Person newItem) {
+    public void add(Booking newItem) {
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(new File(filename), true));
             bw.write(newItem.represent());
@@ -51,7 +52,7 @@ public class PersonDAO implements DAO<Person> {
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(new File(filename), true));
             getAll().stream().
-                    filter(p -> p.id != id)
+                    filter(p -> p.getId() != id)
                     .forEach(p -> {
                         try {
                             bw.write(p.represent());

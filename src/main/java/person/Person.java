@@ -4,7 +4,7 @@ public class Person {
     public final String name;
     public final String surname;
     private static int ids = 0;
-    private int id;
+    public final int id;
 
     public Person(String name, String surname) {
         this.name = name;
@@ -18,10 +18,6 @@ public class Person {
 
     public String getSurname() {
         return surname;
-    }
-
-    public int getId() {
-        return id;
     }
 
     public static Person parse(String s) {

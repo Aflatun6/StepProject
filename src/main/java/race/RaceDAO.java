@@ -1,41 +1,37 @@
-package person;
+package race;
 
 import dao.DAO;
 
 import java.io.*;
 import java.util.Collection;
-//import java.util.Collections;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class PersonDAO implements DAO<Person> {
+public class RaceDAO implements DAO<Race> {
     public final String filename;
 
-    public PersonDAO(String filename) {
+    public RaceDAO(String filename) {
         this.filename = filename;
     }
 
     @Override
-    public Optional<Person> get(int id) {
+    public Optional<Race> get(int id) {
         return getAll().stream()
-                .filter(p -> p.id == id)
-                .findFirst();
-//                .orElseThrow(() -> new RuntimeException("Something went wrong"));
+                .filter(r -> r.id == id).findFirst();
     }
 
     @Override
-    public Collection<Person> getAll() {
+    public Collection<Race> getAll() {
         try {
-            BufferedReader br = new BufferedReader(new FileReader(new File(filename)));
-            return br.lines().map(Person::parse).collect(Collectors.toList());
-
+            return new BufferedReader(new FileReader(new File(filename)))
+                    .lines().map(r -> Race.parse(r)).collect(Collectors.toList());
         } catch (IOException e) {
             throw new RuntimeException("Something went wrong");
         }
     }
 
     @Override
-    public void add(Person newItem) {
+    public void add(Race newItem) {
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(new File(filename), true));
             bw.write(newItem.represent());
@@ -51,10 +47,10 @@ public class PersonDAO implements DAO<Person> {
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(new File(filename), true));
             getAll().stream().
-                    filter(p -> p.id != id)
-                    .forEach(p -> {
+                    filter(r -> r.id != id)
+                    .forEach(r -> {
                         try {
-                            bw.write(p.represent());
+                            bw.write(r.represent());
                             bw.write("\n");
                         } catch (IOException e) {
                             throw new RuntimeException("Something went wrong");

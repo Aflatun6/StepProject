@@ -8,7 +8,7 @@ public interface DAO<T> {
 
     Collection<T> getAll();
 
-    boolean add(T newItem);
+    void add(T newItem);
 
-    boolean remove(int id);
+    void remove(int id);
 }

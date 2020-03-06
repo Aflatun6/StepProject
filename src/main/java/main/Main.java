@@ -16,5 +16,6 @@ public class Main {
 
         Collection<Person> all = people.getAll();
         all.forEach(p -> System.out.println(p));
+
     }
 }
